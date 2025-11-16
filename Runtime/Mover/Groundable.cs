@@ -3,8 +3,6 @@ using UnityEngine;
 namespace YanickSenn.Controller.FirstPerson.Mover {
     [DisallowMultipleComponent, RequireComponent(typeof(Rigidbody))]
     public class Groundable : MonoBehaviour {
-        public GroundedCheckType groundedCheckType = GroundedCheckType.Raycast;
-        
         private Collider _collider;
         private Rigidbody _rigidbody;
         
@@ -23,11 +21,13 @@ namespace YanickSenn.Controller.FirstPerson.Mover {
         }
 
         private void UpdateGroundedState() {
-            _isGrounded = groundedCheckType switch {
-                GroundedCheckType.Velocity => IsGroundedVelocity(),
-                GroundedCheckType.Raycast => IsGroundedRaycast(),
-                _ => _isGrounded
-            };
+            var groundedRaycast = IsGroundedRaycast();
+            if (groundedRaycast) {
+                _isGrounded = true;
+                return;
+            }
+            var groundedVelocity = IsGroundedVelocity();
+            _isGrounded = groundedVelocity;
         }
 
         private bool IsGroundedRaycast() {
@@ -37,16 +37,7 @@ namespace YanickSenn.Controller.FirstPerson.Mover {
         }
 
         private bool IsGroundedVelocity() {
-            return Mathf.Abs(_rigidbody.linearVelocity.y) < Mathf.Epsilon;
-        }
-
-        private bool IsGroundedCollision() {
-            return _currentPlatform != null;
-        }
-
-        public enum GroundedCheckType {
-            Velocity,
-            Raycast,
+            return Mathf.Abs(_rigidbody.linearVelocity.y) < 0.01f;
         }
     }
 }

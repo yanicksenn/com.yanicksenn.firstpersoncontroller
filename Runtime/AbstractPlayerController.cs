@@ -12,11 +12,12 @@ namespace YanickSenn.Controller.FirstPerson
         [SerializeField] private Optional<Looker> looker;
         [SerializeField] private Optional<AbstractHand> hand;
         [SerializeField] private Optional<AbstractMover> mover;
-
+        
         public Optional<Looker> Looker => looker;
         public Optional<AbstractHand> Hand => hand;
         public Optional<AbstractMover> Mover => mover;
-        
+        public IPlayerState CurrentPlayerState => _currentPlayerState;
+
         private IPlayerState _defaultPlayerState;
         private IPlayerState _currentPlayerState;
 

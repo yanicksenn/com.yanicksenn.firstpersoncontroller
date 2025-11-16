@@ -1,6 +1,6 @@
 {
   "name": "com.yanicksenn.firstpersoncontroller",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "displayName": "First Person Controller",
   "description": "A basic first person controller",
   "unity": "6000.0",
