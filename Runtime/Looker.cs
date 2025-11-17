@@ -11,7 +11,6 @@ namespace YanickSenn.Controller.FirstPerson
         [SerializeField]
         private float lookSensitivity;
 
-        public Vector2 LookInput { get; set; }
         public Vector3 LookOrigin => GetLookOrigin();
         public Vector3 LookDirection => GetLookDirection();
 
@@ -22,18 +21,14 @@ namespace YanickSenn.Controller.FirstPerson
             Cursor.visible = false;
         }
 
-        private void Update() {
-            var mouseX = LookInput.x * lookSensitivity * Time.deltaTime;
-            var mouseY = LookInput.y * lookSensitivity * Time.deltaTime;
+        public void UpdateLookInput(Vector2 lookInput) {
+            if (lookInput.sqrMagnitude < Mathf.Epsilon) return;
+            var mouseX = lookInput.x * lookSensitivity * Time.deltaTime;
+            var mouseY = lookInput.y * lookSensitivity * Time.deltaTime;
             _lookRotation.x =  Mathf.Clamp(_lookRotation.x - mouseY, -60, 60);
             _lookRotation.y += mouseX;
-            camera.transform.localRotation = Quaternion.Euler(
+            camera.transform.rotation = Quaternion.Euler(
                 _lookRotation.x,
-                0f,
-                0f
-            );
-            transform.localRotation = Quaternion.Euler(
-                0f,
                 _lookRotation.y,
                 0f
             );

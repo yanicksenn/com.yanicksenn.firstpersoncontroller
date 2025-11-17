@@ -29,7 +29,7 @@ namespace YanickSenn.Controller.FirstPerson.Mover
             _looker = GetComponent<Looker>();
 
             _rigidbody.linearDamping = 10f;
-            _rigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+            _rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
             _rigidbody.interpolation = RigidbodyInterpolation.Extrapolate;
             _rigidbody.collisionDetectionMode = CollisionDetectionMode.Continuous;
         }

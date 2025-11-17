@@ -25,7 +25,7 @@ namespace YanickSenn.Controller.FirstPerson {
         }
 
         public void OnLook(InputAction.CallbackContext context) {
-            _playerController.Looker.DoIfPresent(looker => looker.LookInput = context.ReadValue<Vector2>());
+            _playerController.Looker.DoIfPresent(looker => looker.UpdateLookInput(context.ReadValue<Vector2>()));
         }
 
         public void OnSprint(InputAction.CallbackContext context) {
