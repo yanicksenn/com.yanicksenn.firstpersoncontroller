@@ -1,0 +1,20 @@
+{
+    "name": "YanickSenn.Controller.FirstPerson.Editor",
+    "rootNamespace": "YanickSenn.Controller.FirstPerson.Editor",
+    "references": [
+        "YanickSenn.Controller.FirstPerson",
+        "Unity.InputSystem",
+        "YanickSenn.Utils"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

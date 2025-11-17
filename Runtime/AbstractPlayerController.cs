@@ -36,6 +36,10 @@ namespace YanickSenn.Controller.FirstPerson
             _currentPlayerState.Disable();
         }
 
+        private void Update() {
+            _currentPlayerState.Update();
+        }
+
         private void FixedUpdate() {
             _currentPlayerState.FixedUpdate();
         }
