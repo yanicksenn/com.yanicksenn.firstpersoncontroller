@@ -4,7 +4,12 @@ namespace YanickSenn.Controller.FirstPerson.Hand {
     [DisallowMultipleComponent,
      RequireComponent(typeof(Rigidbody)),
      RequireComponent(typeof(Collider))]
-    public class Grabbable : MonoBehaviour {
+    public class Grabbable : MonoBehaviour
+    {
+        [SerializeField] private bool useCustomHoldingConfig;
+        [SerializeField] private Vector3 holdingPosition;
+        [SerializeField] private Quaternion holdingRotation = Quaternion.identity;
+        
         private IState _currentState = new Idle();
         private Rigidbody _rigidbody;
         private Collider _collider;
