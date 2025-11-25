@@ -105,12 +105,10 @@ namespace YanickSenn.Controller.FirstPerson.Hand
 
         public class Holding : IHandState {
             public Grabbable Grabbable { get; }
-            public Quaternion RotationOffset { get; }
             public RigidbodySnapshot RigidbodySnapshot { get; }
             public ColliderSnapshot ColliderSnapshot { get; }
-            public Holding(Grabbable grabbable, Quaternion rotationOffset) {
+            public Holding(Grabbable grabbable) {
                 Grabbable = grabbable;
-                RotationOffset = rotationOffset;
                 RigidbodySnapshot = RigidbodySnapshot.From(Grabbable.Rigidbody);
                 ColliderSnapshot = ColliderSnapshot.From(Grabbable.Collider);
             }

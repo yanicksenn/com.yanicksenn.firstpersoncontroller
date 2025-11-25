@@ -45,13 +45,14 @@ public class GrabbableEditor : Editor {
         var holdingPositionProp = serializedObject.FindProperty("holdingPosition");
         var holdingRotationProp = serializedObject.FindProperty("holdingRotation");
 
-        var worldPosition = grabbable.transform.position + holdingPositionProp.vector3Value;
+        var worldPosition = grabbable.transform.TransformPoint(holdingPositionProp.vector3Value);
         var worldRotation = grabbable.transform.rotation * holdingRotationProp.quaternionValue;
 
         EditorGUI.BeginChangeCheck();
         var newHoldingPosition = Handles.PositionHandle(worldPosition, worldRotation);
-        if (EditorGUI.EndChangeCheck()) {
-            holdingPositionProp.vector3Value = newHoldingPosition - grabbable.transform.position;
+        if (EditorGUI.EndChangeCheck())
+        {
+            holdingPositionProp.vector3Value = grabbable.transform.InverseTransformPoint(newHoldingPosition);
             serializedObject.ApplyModifiedProperties();
         }
 

@@ -10,6 +10,10 @@ namespace YanickSenn.Controller.FirstPerson.Hand {
         [SerializeField] private Vector3 holdingPosition;
         [SerializeField] private Quaternion holdingRotation = Quaternion.identity;
         
+        public bool UseCustomHoldingConfig => useCustomHoldingConfig;
+        public Vector3 HoldingPosition => holdingPosition;
+        public Quaternion HoldingRotation => holdingRotation;
+
         private IState _currentState = new Idle();
         private Rigidbody _rigidbody;
         private Collider _collider;

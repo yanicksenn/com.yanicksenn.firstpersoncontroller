@@ -19,7 +19,7 @@ namespace YanickSenn.Controller.FirstPerson.Hand
                 && CurrentHandState is not Holding;
 
             if (canGrab) {
-                CurrentHandState = new Holding(grabbable, Quaternion.Inverse(looker.transform.rotation) * grabbable.transform.rotation);
+                CurrentHandState = new Holding(grabbable);
                 grabbable.Grab(this);
                 return true;
             }
@@ -44,8 +44,16 @@ namespace YanickSenn.Controller.FirstPerson.Hand
 
         protected override void OnGrab(Holding holding) {
             var grabbable = holding.Grabbable;
-            grabbable.transform.parent = transform;
-            grabbable.transform.localPosition = Vector3.zero;
+
+            if (grabbable.UseCustomHoldingConfig) {
+                grabbable.transform.SetParent(transform, false);
+                grabbable.transform.localPosition = grabbable.HoldingPosition;
+                grabbable.transform.localRotation = Quaternion.Euler(grabbable.HoldingRotation.eulerAngles * -1);
+            } else {
+                grabbable.transform.SetParent(transform);
+                grabbable.transform.localPosition = Vector3.zero;
+            }
+            
             grabbable.Rigidbody.linearVelocity = Vector3.zero;
             grabbable.Rigidbody.angularVelocity = Vector3.zero;
             grabbable.Rigidbody.constraints = RigidbodyConstraints.FreezeAll;
