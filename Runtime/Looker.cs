@@ -6,9 +6,6 @@ namespace YanickSenn.Controller.FirstPerson
     [DisallowMultipleComponent]
     public class Looker : MonoBehaviour {
         [SerializeField]
-        private Camera camera;
-        
-        [SerializeField]
         private Transform cameraAnchor;
         
         [SerializeField]
