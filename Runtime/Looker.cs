@@ -9,6 +9,9 @@ namespace YanickSenn.Controller.FirstPerson
         private Camera camera;
         
         [SerializeField]
+        private Transform cameraAnchor;
+        
+        [SerializeField]
         private float lookSensitivity;
 
         public Vector3 LookOrigin => GetLookOrigin();
@@ -27,7 +30,8 @@ namespace YanickSenn.Controller.FirstPerson
             var mouseY = lookInput.y * lookSensitivity * Time.deltaTime;
             _lookRotation.x =  Mathf.Clamp(_lookRotation.x - mouseY, -60, 60);
             _lookRotation.y += mouseX;
-            camera.transform.rotation = Quaternion.Euler(
+    
+            cameraAnchor.transform.localRotation = Quaternion.Euler(
                 _lookRotation.x,
                 _lookRotation.y,
                 0f
@@ -35,11 +39,11 @@ namespace YanickSenn.Controller.FirstPerson
         }
 
         private Vector3 GetLookOrigin() {
-            return camera.transform.position;
+            return cameraAnchor.transform.position;
         }
 
         private Vector3 GetLookDirection() {
-            return camera.transform.forward;
+            return cameraAnchor.transform.forward;
         }
         
         [Serializable]

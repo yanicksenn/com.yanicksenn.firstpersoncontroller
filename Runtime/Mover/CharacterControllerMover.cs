@@ -1,27 +1,15 @@
+using System;
 using UnityEngine;
 
-namespace YanickSenn.Controller.FirstPerson
+namespace YanickSenn.Controller.FirstPerson.Mover
 {
     [DisallowMultipleComponent, 
         RequireComponent(typeof(CharacterController)),
         RequireComponent(typeof(Looker))]
-    public class CharacterControllerMover : AbstractMover
-    {
-        [SerializeField]
-        private float walkingSpeed = 5f;
-
-        [SerializeField]
-        private float runningSpeed = 8f;
-
-        [SerializeField]
-        private float jumpHeight = 1.5f;
-        
-        [SerializeField]
-        private float mass = 80f;
-
+    public class CharacterControllerMover : AbstractMover {
         private CharacterController _characterController;
         private Looker _looker;
-        
+
         private Vector3 _horizontalVelocity;
         private Vector3 _velocity;
 
@@ -33,13 +21,32 @@ namespace YanickSenn.Controller.FirstPerson
         }
 
         private void FixedUpdate() {
+            switch (MoverConfig) {
+                case WalkingConfig walkingStrategy:
+                    ApplyWalkingStrategy(walkingStrategy);
+                    break;
+                case SwimmingConfig swimmingStrategy:
+                    ApplySwimmingStrategy(swimmingStrategy);
+                    break;
+            }
+        }
+
+        public override void Jump() {
+            switch (MoverConfig) {
+                case WalkingConfig walkingStrategy:
+                    ApplyJump(walkingStrategy);
+                    break;
+            }
+        }
+
+        private void ApplyWalkingStrategy(WalkingConfig walkingConfig) {
             var isGrounded = _characterController.isGrounded;
             if (isGrounded && _velocity.y < 0) {
                 _velocity.y = -2f;
             }
 
             if (isGrounded) {
-                var currentSpeed = IsRunning ? runningSpeed : walkingSpeed;
+                var currentSpeed = IsRunning ? walkingConfig.runningSpeed : walkingConfig.walkingSpeed;
                 var lookDirection = _looker.LookDirection;
                 var forward = new Vector3(lookDirection.x, 0f, lookDirection.z).normalized;
                 var right = new Vector3(forward.z, 0, -forward.x);
@@ -52,30 +59,20 @@ namespace YanickSenn.Controller.FirstPerson
             var finalVelocity = _horizontalVelocity + new Vector3(0, _velocity.y, 0);
             _characterController.Move(finalVelocity * Time.fixedDeltaTime);
         }
-    
-        private void OnControllerColliderHit(ControllerColliderHit hit) {
-            Rigidbody body = hit.collider.attachedRigidbody;
-            if (body == null || body.isKinematic) {
-                return;
-            }
 
-            // We don't want to push objects below us
-            //if (hit.moveDirection.y < -0.3f) {
-            //    return;
-            //}
-
-            // Apply the push force, scaled by our mass and the Rigidbody's mass
-            // This makes the push feel more realistic
-            Debug.DrawRay(hit.point, hit.moveDirection * mass, Color.red);
-            body.AddForceAtPosition(hit.moveDirection * mass * hit.moveLength, hit.point, ForceMode.Force);
+        private void ApplySwimmingStrategy(SwimmingConfig swimmingConfig) {
+            var lookDirection = _looker.LookDirection;
+            var moveDirection = MoveInput.sqrMagnitude > Mathf.Epsilon ? lookDirection.normalized : Vector3.zero;
+            _velocity = moveDirection * swimmingConfig.swimmingSpeed;
+            _characterController.Move(_velocity * Time.fixedDeltaTime);
         }
 
-        public override void Jump() {
+        private void ApplyJump(WalkingConfig walkingConfig) {
             if (!IsGrounded) return;
             
             // Calculate the required upward velocity to reach the desired jumpHeight
             // This is derived from the physics formula: v = sqrt(h * -2 * g)
-            _velocity.y = Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y);
+            _velocity.y = Mathf.Sqrt(walkingConfig.jumpHeight * -2f * Physics.gravity.y);
         }
     }
 }
