@@ -1,5 +1,7 @@
 using YanickSenn.Utils;
 using UnityEngine;
+using YanickSenn.Utils.Control;
+using YanickSenn.Utils.Snapshots;
 
 namespace YanickSenn.Controller.FirstPerson.Hand
 {

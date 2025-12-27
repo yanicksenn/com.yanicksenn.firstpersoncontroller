@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using YanickSenn.Controller.FirstPerson.Hand;
 using YanickSenn.Utils;
+using YanickSenn.Utils.Control;
 
 namespace YanickSenn.Controller.FirstPerson
 {
