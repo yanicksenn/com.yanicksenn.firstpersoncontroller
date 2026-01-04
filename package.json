@@ -1,6 +1,6 @@
 {
   "name": "com.yanicksenn.firstpersoncontroller",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "displayName": "First Person Controller",
   "description": "A basic first person controller",
   "unity": "6000.0",
@@ -11,6 +11,6 @@
     "url": ""
   },
   "dependencies": {
-    "com.yanicksenn.utils": "https://github.com/yanicksenn/com.yanicksenn.utils#1.0.4"
+    "com.yanicksenn.utils": "https://github.com/yanicksenn/com.yanicksenn.utils#2.0.1"
   }
 }
